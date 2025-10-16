@@ -1,261 +1,1311 @@
 <!DOCTYPE html>
-<html class="no-js" lang="tr">
+<html lang="tr">
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>AVTURAS</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AVTURAS — Politika • Toplum • Sosyoloji</title>
     <meta
       name="description"
-      content="AVTURAS, politika ve siyaset alanında kar amacı gütmeyen yazılımlar ve çözümler geliştiren bir topluluktur."
+      content="AVTURAS, politika, toplum ve sosyoloji alanlarında bülten, araştırma ve araçlar üretir. Şeffaflık ve katılım için teknolojiyi kullanır."
     />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="assets/img/favicon.ico"
+
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="AVTURAS — Politika • Toplum • Sosyoloji"
     />
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/lineicons.css" />
-    <link rel="stylesheet" href="assets/css/animate.css" />
-    <link rel="stylesheet" href="assets/css/main.css" />
+    <meta
+      property="og:description"
+      content="Bülten, araçlar ve araştırmalarla politika ve topluma etki."
+    />
+    <meta property="og:type" content="website" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #4f46e5;
+        --primary-dark: #4338ca;
+        --secondary: #06b6d4;
+        --dark: #0f172a;
+        --dark-light: #1e293b;
+        --gray: #64748b;
+        --light: #f1f5f9;
+        --white: #ffffff;
+        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: var(--dark);
+        overflow-x: hidden;
+      }
+
+      /* Preloader */
+      .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s, visibility 0.5s;
+      }
+
+      .preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Header */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 1rem 0;
+        background: var(--white);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        transition: all 0.3s;
+      }
+
+      header.scrolled {
+        padding: 0.5rem 0;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        text-decoration: none;
+        transition: transform 0.3s;
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: var(--dark);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: width 0.3s;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--primary);
+      }
+
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
+        width: 100%;
+      }
+
+      .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 5px;
+      }
+
+      .menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background: var(--dark);
+        transition: all 0.3s;
+        border-radius: 3px;
+      }
+
+      .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+      }
+
+      .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 8rem 2rem 4rem;
+        background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(79, 70, 229, 0.1) 0%,
+          transparent 70%
+        );
+        top: -200px;
+        right: -200px;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .hero-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+
+      .hero-text h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1.2;
+      }
+
+      .hero-text p {
+        font-size: 1.2rem;
+        color: var(--gray);
+        margin-bottom: 2rem;
+      }
+
+      .hero-text strong {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 0.9rem 2rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: var(--white);
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+      }
+
+      .btn-secondary:hover {
+        background: var(--primary);
+        color: var(--white);
+        transform: translateY(-2px);
+      }
+
+      .hero-visual {
+        position: relative;
+      }
+
+      .hero-visual svg {
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1));
+      }
+
+      /* Section Styling */
+      section {
+        padding: 5rem 2rem;
+      }
+
+      .section-title {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+
+      .section-title h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--dark);
+      }
+
+      .section-title p {
+        font-size: 1.1rem;
+        color: var(--gray);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      /* Features */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .feature-card {
+        background: var(--white);
+        padding: 2.5rem;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        transition: all 0.3s;
+        border: 1px solid rgba(79, 70, 229, 0.1);
+      }
+
+      .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        border-color: var(--primary);
+      }
+
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gradient);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        color: var(--white);
+      }
+
+      .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+      }
+
+      .feature-card p {
+        color: var(--gray);
+        line-height: 1.7;
+      }
+
+      /* Newsletter Section */
+      .newsletter {
+        background: var(--gradient);
+        color: var(--white);
+      }
+
+      .newsletter-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .newsletter h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .newsletter p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        opacity: 0.95;
+      }
+
+      .newsletter-form {
+        display: flex;
+        gap: 1rem;
+        max-width: 600px;
+        margin: 0 auto;
+        flex-wrap: wrap;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        padding: 1rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        min-width: 250px;
+      }
+
+      .newsletter-form button {
+        padding: 1rem 2.5rem;
+        background: var(--dark);
+        color: var(--white);
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .newsletter-form button:hover {
+        background: var(--dark-light);
+        transform: translateY(-2px);
+      }
+
+      .form-message {
+        margin-top: 1rem;
+        padding: 0.8rem;
+        border-radius: 6px;
+        display: none;
+      }
+
+      .form-message.success {
+        background: rgba(34, 197, 94, 0.2);
+        color: var(--white);
+        display: block;
+      }
+
+      .form-message.error {
+        background: rgba(239, 68, 68, 0.2);
+        color: var(--white);
+        display: block;
+      }
+
+      /* Products Section */
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 3rem;
+        margin-top: 3rem;
+      }
+
+      .product-card {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.3s;
+      }
+
+      .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      .product-card-content {
+        padding: 2rem;
+      }
+
+      .product-card h3 {
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        color: var(--dark);
+      }
+
+      .product-card ul {
+        list-style: none;
+        margin: 1.5rem 0;
+      }
+
+      .product-card li {
+        padding: 0.5rem 0;
+        color: var(--gray);
+        position: relative;
+        padding-left: 1.5rem;
+      }
+
+      .product-card li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+        font-weight: bold;
+      }
+
+      /* Contact Section */
+      .contact-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+      }
+
+      .contact-info h3 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-info p {
+        color: var(--gray);
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .contact-form {
+        background: var(--white);
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid var(--light);
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s;
+        font-family: inherit;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      /* Footer */
+      footer {
+        background: var(--dark);
+        color: var(--white);
+        padding: 3rem 2rem 1.5rem;
+      }
+
+      .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+        margin-bottom: 2rem;
+      }
+
+      .footer-section h3 {
+        margin-bottom: 1rem;
+      }
+
+      .footer-section p,
+      .footer-section a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        display: block;
+        margin-bottom: 0.5rem;
+        transition: color 0.3s;
+      }
+
+      .footer-section a:hover {
+        color: var(--white);
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 2rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Scroll to top */
+      .scroll-top {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        width: 50px;
+        height: 50px;
+        background: var(--primary);
+        color: var(--white);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        z-index: 999;
+        box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+      }
+
+      .scroll-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .scroll-top:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: flex;
+        }
+
+        .nav-links {
+          position: fixed;
+          top: 70px;
+          left: -100%;
+          width: 100%;
+          height: calc(100vh - 70px);
+          background: var(--white);
+          flex-direction: column;
+          padding: 2rem;
+          transition: left 0.3s;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links.active {
+          left: 0;
+        }
+
+        .hero-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .hero-text h1 {
+          font-size: 2.5rem;
+        }
+
+        .btn-group {
+          justify-content: center;
+        }
+
+        .contact-content {
+          grid-template-columns: 1fr;
+        }
+
+        .products-grid,
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .newsletter-form {
+          flex-direction: column;
+        }
+
+        .newsletter-form input,
+        .newsletter-form button {
+          width: 100%;
+        }
+      }
+
+      /* Animations */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease-out;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
   </head>
   <body>
+    <!-- Preloader -->
     <div class="preloader">
-      <div class="loader">
-        <div class="spinner">
-          <div class="spinner-container">
-            <div class="spinner-rotator">
-              <div class="spinner-left">
-                <div class="spinner-circle"></div>
-              </div>
-              <div class="spinner-right">
-                <div class="spinner-circle"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="spinner"></div>
     </div>
 
-    <header class="header">
-      <div class="navbar-area">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-12">
-              <nav class="navbar navbar-expand-lg">
-                <a class="navbar-brand" href="index.html">
-                  <img src="assets/img/logo/logo.svg" alt="Logo" width="60%" />
-                </a>
-                <button
-                  class="navbar-toggler"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent"
-                  aria-expanded="false"
-                  aria-label="Navigasyonu aç/kapat"
-                >
-                  <span class="toggler-icon"></span>
-                  <span class="toggler-icon"></span>
-                  <span class="toggler-icon"></span>
-                </button>
-                <div
-                  class="collapse navbar-collapse sub-menu-bar"
-                  id="navbarSupportedContent"
-                >
-                  <ul id="nav" class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                      <a class="page-scroll active" href="#home">Ana Sayfa</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="page-scroll" href="#about">Hakkımızda</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="page-scroll" href="#contact">İletişim</a>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
-            </div>
-          </div>
+    <!-- Header -->
+    <header id="header">
+      <nav>
+        <a class="navbar-brand" href="index.html">
+          <img src="assets/img/logo/logo.svg" alt="Logo" width="40%" />
+        </a>
+        <ul class="nav-links">
+          <li><a href="#home" class="active">Ana Sayfa</a></li>
+          <li><a href="#newsletter">Bülten</a></li>
+          <li><a href="#products">Ürünler</a></li>
+          <li><a href="#partners">İşbirlikleri</a></li>
+          <li><a href="#about">Hakkımızda</a></li>
+          <li><a href="#contact">İletişim</a></li>
+        </ul>
+        <div class="menu-toggle">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-      </div>
+      </nav>
     </header>
 
-    <section id="home" class="hero-section">
+    <!-- Hero Section -->
+    <section id="home" class="hero">
       <div class="container">
-        <div class="row align-items-center position-relative">
-          <div class="col-lg-6">
-            <div class="hero-content">
-              <h1 class="wow fadeInUp" data-wow-delay=".4s">
-                Politika ve Toplum için Dijital Araçlar
-              </h1>
-              <p class="wow fadeInUp" data-wow-delay=".6s">
-                AVTURAS, siyaset ve kamu politikaları alanında şeffaflığı,
-                katılımı ve verimliliği artırmak için dijital, açık kaynaklı
-                çözümler geliştiren bir topluluktur.
+        <div class="hero-content">
+          <div class="hero-text fade-in">
+            <h1>Politika • Toplum • Sosyoloji</h1>
+            <p>
+              AVTURAS, politika ve toplum alanında <strong>bülten</strong>,
+              <strong>araştırma</strong> ve <strong>yazılım ürünleri</strong>
+              geliştirir. Kamu yararını önceleyen; aynı zamanda
+              <strong>sürdürülebilir</strong> ve <strong>şeffaf</strong>
+              bir iş modeliyle çalışır.
+            </p>
+            <div class="btn-group">
+              <a
+                href="https://github.com/avturas"
+                class="btn btn-primary"
+                target="_blank"
+                >Github</a
+              >
+              <a href="#partners" class="btn btn-secondary">Sponsor Ol</a>
+            </div>
+          </div>
+          <div class="hero-visual fade-in">
+            <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+              <rect
+                x="50"
+                y="100"
+                width="400"
+                height="250"
+                rx="20"
+                fill="#667eea"
+                opacity="0.1"
+              />
+              <rect
+                x="80"
+                y="130"
+                width="150"
+                height="100"
+                rx="10"
+                fill="#667eea"
+                opacity="0.3"
+              />
+              <rect
+                x="270"
+                y="130"
+                width="150"
+                height="100"
+                rx="10"
+                fill="#764ba2"
+                opacity="0.3"
+              />
+              <rect
+                x="80"
+                y="260"
+                width="340"
+                height="60"
+                rx="10"
+                fill="#667eea"
+                opacity="0.2"
+              />
+              <circle cx="250" cy="60" r="30" fill="#764ba2" opacity="0.4" />
+              <circle cx="150" cy="50" r="20" fill="#667eea" opacity="0.3" />
+              <circle cx="350" cy="70" r="25" fill="#764ba2" opacity="0.3" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features">
+      <div class="container">
+        <div class="section-title fade-in">
+          <h2>Neden AVTURAS?</h2>
+          <p>Alan odaklı içerik, açık kaynak araçlar ve sürdürülebilir model</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon">📊</div>
+            <h3>Alan Odaklı İçerik</h3>
+            <p>
+              Politika, toplum ve sosyoloji kesişiminde teknolojik çözümler ve
+              derinlemesine araştırmalar.
+            </p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">💻</div>
+            <h3>Açık Kaynak Araçlar</h3>
+            <p>
+              Katılım ve şeffaflık için geliştirilen açık kaynak yazılımlar ve
+              metod setleri.
+            </p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">🤝</div>
+            <h3>Sürdürülebilir Model</h3>
+            <p>
+              Sponsorlu bültenler, reklam alanları ve kurumsal işbirlikleriyle
+              finansal sürdürülebilirlik.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section id="newsletter" class="newsletter">
+      <div class="container">
+        <div class="newsletter-content">
+          <h2>AVTURAS Bülten</h2>
+          <p>
+            Her hafta: politika ve toplum üzerine derin içerikler, veri
+            görselleştirmeleri, saha notları. Spam yok. İstediğin an
+            çıkabilirsin.
+          </p>
+          <form class="newsletter-form" id="newsletterForm">
+            <input type="text" name="name" placeholder="Adınız" required />
+            <input
+              type="email"
+              name="email"
+              placeholder="E-posta adresiniz"
+              required
+            />
+            <button type="submit">Kaydol</button>
+          </form>
+          <div class="form-message" id="newsletterMessage"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="products">
+      <div class="container">
+        <div class="section-title fade-in">
+          <h2>Ürünler & Çözümler</h2>
+          <p>
+            Araştırmacılar, STK'lar ve yerel yönetimler için modüler araçlar
+          </p>
+        </div>
+        <div class="products-grid">
+          <div class="product-card fade-in">
+            <div class="product-card-content">
+              <h3>📰 AVTURAS Bülten</h3>
+              <p>Politika ve toplum üzerine haftalık içerikler</p>
+              <ul>
+                <li>Derinlemesine araştırma ve analizler</li>
+                <li>Veri görselleştirmeleri ve infografikler</li>
+                <li>Saha notları ve gözlemler</li>
+                <li>Spam-free, istediğiniz zaman ayrılabilirsiniz</li>
+              </ul>
+              <a href="#newsletter" class="btn btn-primary">Bültene Kaydol</a>
+            </div>
+          </div>
+          <div class="product-card fade-in">
+            <div class="product-card-content">
+              <h3>🏛️ Politik Organizasyon Yönetim Sistemi</h3>
+              <p>Angular 20 ve Firebase ile rol tabanlı yönetim platformu</p>
+              <ul>
+                <li>Yapılandırılmış doküman paylaşımı</li>
+                <li>Duyuru ve iş akışı yönetimi</li>
+                <li>Güvenli ve ölçeklenebilir erişim kontrolü</li>
+                <li>Organizasyonel iletişim altyapısı</li>
+              </ul>
+              <a
+                href="https://github.com/avturas"
+                class="btn btn-primary"
+                target="_blank"
+                >GitHub'da İncele</a
+              >
+            </div>
+          </div>
+          <div class="product-card fade-in">
+            <div class="product-card-content">
+              <h3>📚 Akademik İçerik Platformu</h3>
+              <p>
+                GitHub Pages üzerinden Markdown içerik sunan Angular uygulaması
               </p>
+              <ul>
+                <li>Markdown tabanlı eğitim içerikleri</li>
+                <li>Kategori ve modül bazında filtreleme</li>
+                <li>Sade ve okunabilir arayüz</li>
+                <li>Anlık içerik çekme ve gösterim</li>
+              </ul>
               <a
-                href="#about"
-                class="main-btn border-btn btn-hover wow fadeInUp"
-                data-wow-delay=".6s"
-                >Hakkımızda</a
+                href="https://github.com/avturas"
+                class="btn btn-primary"
+                target="_blank"
+                >GitHub'da İncele</a
               >
-              <a href="#about" class="scroll-bottom">
-                <i class="lni lni-arrow-down"></i>
-              </a>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="hero-img wow fadeInUp" data-wow-delay=".5s">
-              <img src="assets/img/hero-img.svg" alt="" />
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="features" class="feature-section pt-120">
+    <!-- Partners -->
+    <section id="partners">
       <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-4 col-md-8 col-sm-10">
-            <div class="single-feature">
-              <div class="icon">
-                <i class="lni lni-bootstrap"></i>
-              </div>
-              <div class="content">
-                <h3>Açık Kaynak</h3>
-                <p>
-                  Toplumun hizmetine sunulan tüm yazılımlarımız açık
-                  kaynaklıdır.
-                </p>
-              </div>
-            </div>
+        <div class="section-title fade-in">
+          <h2>Reklam & İşbirlikleri</h2>
+          <p>
+            Bülten sponsorlukları, ürün yerleştirme, özel araştırma ve saha
+            projeleri için birlikte çalışalım.
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon">📣</div>
+            <h3>Bülten Sponsoru</h3>
+            <p>
+              Haftalık bültenin üst/alt alanları, sponsorlu not ve logo
+              yerleşimi.
+            </p>
           </div>
-          <div class="col-lg-4 col-md-8 col-sm-10">
-            <div class="single-feature">
-              <div class="icon">
-                <i class="lni lni-layout"></i>
-              </div>
-              <div class="content">
-                <h3>Topluluk Temelli</h3>
-                <p>
-                  AVTURAS, bireylerin katılımıyla şekillenen, tabana yayılan bir
-                  inisiyatiftir.
-                </p>
-              </div>
-            </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">🔗</div>
+            <h3>Ortak Projeler</h3>
+            <p>
+              Veri tabanlı raporlar, saha araştırmaları, etkinlik ve atölyeler.
+            </p>
           </div>
-          <div class="col-lg-4 col-md-8 col-sm-10">
-            <div class="single-feature">
-              <div class="icon">
-                <i class="lni lni-coffee-cup"></i>
-              </div>
-              <div class="content">
-                <h3>Şefaf ve Katılımcı</h3>
-                <p>
-                  Teknolojiyi, siyasal karar alma süreçlerinde şeffaflığı ve
-                  katılımı artırmak için kullanıyoruz.
-                </p>
-              </div>
-            </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">🤝</div>
+            <h3>Topluluk Programı</h3>
+            <p>
+              Akademi, STK ve girişimler için indirimli paketler ve görünürlük.
+            </p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="about" class="about-section pt-150">
+    <!-- About -->
+    <section id="about">
       <div class="container">
-        <div class="row align-items-center">
-          <div class="col-xl-6 col-lg-6">
-            <div class="about-img">
-              <img src="assets/img/work-together.svg" alt="" class="w-100" />
-              <img
-                src="assets/img/about/about-left-shape.svg"
-                alt=""
-                class="shape shape-1"
-              />
-              <img
-                src="assets/img/about/left-dots.svg"
-                alt=""
-                class="shape shape-2"
-              />
-            </div>
-          </div>
-          <div class="col-xl-6 col-lg-6">
-            <div class="about-content">
-              <div class="section-title mb-30">
-                <h2 class="mb-25 wow fadeInUp" data-wow-delay=".2s">
-                  AVTURAS Nedir?
-                </h2>
-                <p class="wow fadeInUp" data-wow-delay=".4s">
-                  AVTURAS, Avrupa, Türkiye ve Asya arasında dijital bağlar
-                  kurmayı amaçlayan, siyaset ve kamu politikaları alanında
-                  dijital çözümler üreten bir sivil inisiyatiftir. Etkinlikler,
-                  konferanslar, yazılım projeleri ve eğitim materyalleri ile
-                  katılımcı, şeffaf ve teknolojik bir gelecek inşa etmeyi
-                  hedefler.
-                </p>
-              </div>
+        <div class="section-title fade-in">
+          <h2>AVTURAS Nedir?</h2>
+        </div>
+        <div class="contact-content">
+          <div class="fade-in">
+            <h3>Misyonumuz</h3>
+            <p>
+              AVTURAS; Avrupa, Türkiye ve Asya arasında dijital bağlar kurmayı
+              hedefleyen; politika, toplum ve sosyoloji alanlarında içerik ve
+              araçlar geliştiren bir girişimdir.
+            </p>
+            <p>
+              Köklerimiz açık kaynak ve kamu yararına dayanır; gelir modelimiz
+              sponsorluklar, işbirlikleri ve ürünlerden oluşur.
+            </p>
+            <div class="btn-group" style="margin-top: 24px">
+              <a href="#contact" class="btn btn-primary">Bize Ulaşın</a>
               <a
-                href="#contact"
-                class="main-btn btn-hover border-btn wow fadeInUp"
-                data-wow-delay=".6s"
+                href="https://github.com/avturas"
+                class="btn btn-secondary"
+                target="_blank"
+                >GitHub</a
               >
-                Bize Ulaşın
-              </a>
             </div>
+          </div>
+          <div class="fade-in">
+            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="200" cy="150" r="120" fill="#667eea" opacity="0.1" />
+              <circle cx="200" cy="150" r="80" fill="#764ba2" opacity="0.2" />
+              <circle cx="200" cy="150" r="40" fill="#667eea" opacity="0.3" />
+              <rect
+                x="100"
+                y="240"
+                width="200"
+                height="40"
+                rx="20"
+                fill="#764ba2"
+                opacity="0.2"
+              />
+              <circle cx="280" cy="100" r="15" fill="#667eea" opacity="0.4" />
+              <circle cx="120" cy="100" r="15" fill="#764ba2" opacity="0.4" />
+            </svg>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="subscribe-section pt-120">
+    <!-- Contact -->
+    <section id="contact">
       <div class="container">
-        <div class="subscribe-wrapper img-bg">
-          <div class="row align-items-center">
-            <div class="col-xl-6 col-lg-7">
-              <div class="section-title mb-15">
-                <h2 class="text-white mb-25">Bize Ulaşın</h2>
-                <p class="text-white pr-5">Kadıköy / İstanbul</p>
+        <div class="section-title fade-in">
+          <h2>İletişim</h2>
+          <p>
+            Sorularınız, önerileriniz veya işbirliği teklifleriniz için bizimle
+            iletişime geçin
+          </p>
+        </div>
+        <div class="contact-content">
+          <div class="contact-info fade-in">
+            <h3>İletişim Bilgileri</h3>
+            <p><strong>📍 Konum:</strong> Kadıköy / İstanbul</p>
+            <p><strong>📧 E-posta:</strong> info@avturas.com</p>
+            <p><strong>⏱️ Yanıt Süresi:</strong> 1–2 iş günü</p>
+            <p style="margin-top: 2rem">
+              Hafta içi mesajlarınıza en kısa sürede dönüş yapıyoruz.
+              Projeleriniz ve işbirliği önerileriniz için sabırsızlanıyoruz!
+            </p>
+          </div>
+          <div class="contact-form fade-in">
+            <form id="contactForm">
+              <div class="form-group">
+                <input
+                  type="text"
+                  name="fullname"
+                  placeholder="Ad Soyad"
+                  required
+                />
               </div>
-            </div>
-            <div class="col-xl-6 col-lg-5">
-              <form action="#" class="subscribe-form">
+              <div class="form-group">
                 <input
                   type="email"
-                  name="subs-email"
-                  id="subs-email"
-                  disabled
-                  placeholder="info@avturas.com"
+                  name="email"
+                  placeholder="E-posta"
+                  required
                 />
-              </form>
-            </div>
+              </div>
+              <div class="form-group">
+                <input type="text" name="subject" placeholder="Konu" />
+              </div>
+              <div class="form-group">
+                <textarea
+                  name="message"
+                  placeholder="Mesajınız"
+                  required
+                ></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary" style="width: 100%">
+                Mesaj Gönder
+              </button>
+            </form>
+            <div class="form-message" id="contactMessage"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <footer class="footer">
+    <!-- Footer -->
+    <footer>
       <div class="container">
-        <div class="widget-wrapper">
-          <div class="row">
-            <div class="col-xl-4 col-lg-4 col-md-6">
-              <div class="footer-widget">
-                <p class="desc mb-30 text-white">AVTURAS &copy; 2025</p>
-              </div>
-            </div>
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>AVTURAS</h3>
+            <p>
+              Politika, toplum ve sosyoloji alanlarında bülten, araştırma ve
+              dijital araçlar.
+            </p>
           </div>
+          <div class="footer-section">
+            <h3>Hızlı Linkler</h3>
+            <a href="#home">Ana Sayfa</a>
+            <a href="#newsletter">Bülten</a>
+            <a href="#products">Ürünler</a>
+            <a href="#contact">İletişim</a>
+          </div>
+          <div class="footer-section">
+            <h3>Yasal</h3>
+            <a href="#privacy">KVKK/Aydınlatma</a>
+            <a href="#cookies">Çerez Politikası</a>
+            <a href="#terms">Kullanım Şartları</a>
+          </div>
+          <div class="footer-section">
+            <h3>Sosyal</h3>
+            <a href="https://github.com/avturas" target="_blank">GitHub</a>
+            <a href="#newsletter">Newsletter</a>
+            <a href="mailto:info@avturas.com">E-posta</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2025 AVTURAS. Tüm hakları saklıdır.</p>
         </div>
       </div>
     </footer>
 
-    <a href="#" class="scroll-top btn-hover">
-      <i class="lni lni-chevron-up"></i>
-    </a>
+    <!-- Scroll to Top -->
+    <div class="scroll-top">↑</div>
 
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/wow.min.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script>
+      // Preloader
+      window.addEventListener("load", () => {
+        const preloader = document.querySelector(".preloader");
+        setTimeout(() => {
+          preloader.classList.add("hidden");
+        }, 500);
+      });
+
+      // Mobile Menu Toggle
+      const menuToggle = document.querySelector(".menu-toggle");
+      const navLinks = document.querySelector(".nav-links");
+
+      menuToggle.addEventListener("click", () => {
+        menuToggle.classList.toggle("active");
+        navLinks.classList.toggle("active");
+      });
+
+      // Close mobile menu when clicking a link
+      document.querySelectorAll(".nav-links a").forEach((link) => {
+        link.addEventListener("click", () => {
+          menuToggle.classList.remove("active");
+          navLinks.classList.remove("active");
+        });
+      });
+
+      // Header Scroll Effect
+      const header = document.getElementById("header");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 100) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      });
+
+      // Active Navigation Link
+      const sections = document.querySelectorAll("section[id]");
+      const navLinksAll = document.querySelectorAll(".nav-links a");
+
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (scrollY >= sectionTop - 200) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinksAll.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href").includes(current)) {
+            link.classList.add("active");
+          }
+        });
+      });
+
+      // Scroll to Top Button
+      const scrollTop = document.querySelector(".scroll-top");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          scrollTop.classList.add("visible");
+        } else {
+          scrollTop.classList.remove("visible");
+        }
+      });
+
+      scrollTop.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+      // Intersection Observer for Fade-in Animations
+      const fadeElements = document.querySelectorAll(".fade-in");
+
+      const fadeObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "0px 0px -50px 0px",
+        }
+      );
+
+      fadeElements.forEach((el) => fadeObserver.observe(el));
+
+      // Newsletter Form
+      const newsletterForm = document.getElementById("newsletterForm");
+      const newsletterMessage = document.getElementById("newsletterMessage");
+
+      newsletterForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(newsletterForm);
+        const name = formData.get("name");
+        const email = formData.get("email");
+
+        // Simulate form submission
+        newsletterMessage.textContent = "Kaydınız alınıyor...";
+        newsletterMessage.className = "form-message";
+        newsletterMessage.style.display = "block";
+
+        // Simulate API call
+        setTimeout(() => {
+          newsletterMessage.textContent = `✓ Teşekkürler ${name}! Bülten kayıt isteğiniz alındı.`;
+          newsletterMessage.className = "form-message success";
+          newsletterForm.reset();
+
+          // Hide message after 5 seconds
+          setTimeout(() => {
+            newsletterMessage.style.display = "none";
+          }, 5000);
+        }, 1000);
+      });
+
+      // Contact Form
+      const contactForm = document.getElementById("contactForm");
+      const contactMessage = document.getElementById("contactMessage");
+
+      contactForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(contactForm);
+        const fullname = formData.get("fullname");
+
+        // Simulate form submission
+        contactMessage.textContent = "Mesajınız gönderiliyor...";
+        contactMessage.className = "form-message";
+        contactMessage.style.display = "block";
+
+        // Simulate API call
+        setTimeout(() => {
+          contactMessage.textContent = `✓ Teşekkürler ${fullname}! Mesajınız iletildi. En kısa sürede size dönüş yapacağız.`;
+          contactMessage.className = "form-message success";
+          contactForm.reset();
+
+          // Hide message after 5 seconds
+          setTimeout(() => {
+            contactMessage.style.display = "none";
+          }, 5000);
+        }, 1000);
+      });
+
+      // Smooth Scroll for all anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            const headerOffset = 80;
+            const elementPosition = target.getBoundingClientRect().top;
+            const offsetPosition =
+              elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth",
+            });
+          }
+        });
+      });
+
+      // Add floating animation to hero visual
+      const heroVisual = document.querySelector(".hero-visual svg");
+      if (heroVisual) {
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener("mousemove", (e) => {
+          mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
+          mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
+
+          heroVisual.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        });
+      }
+
+      // Console Easter Egg
+      console.log(
+        "%c🚀 AVTURAS",
+        "font-size: 24px; font-weight: bold; color: #4F46E5;"
+      );
+      console.log(
+        "%cPolitika • Toplum • Sosyoloji",
+        "font-size: 14px; color: #64748B;"
+      );
+      console.log(
+        "%cGitHub: https://github.com/avturas",
+        "font-size: 12px; color: #4F46E5;"
+      );
+    </script>
   </body>
 </html>
