@@ -527,37 +527,17 @@
         font-size: 1.1rem;
       }
 
-      .contact-form {
+      .contact-note {
         background: var(--white);
         padding: 3rem;
         border-radius: 12px;
         box-shadow: var(--shadow);
       }
 
-      .form-group {
-        margin-bottom: 1.5rem;
-      }
-
-      .form-group input,
-      .form-group textarea {
-        width: 100%;
-        padding: 1rem;
-        border: 2px solid var(--light);
-        border-radius: 8px;
-        font-size: 1rem;
-        transition: all 0.3s;
-        font-family: inherit;
-      }
-
-      .form-group input:focus,
-      .form-group textarea:focus {
-        outline: none;
-        border-color: var(--primary);
-      }
-
-      .form-group textarea {
-        resize: vertical;
-        min-height: 120px;
+      .contact-note p {
+        color: var(--gray);
+        font-size: 1.1rem;
+        line-height: 1.8;
       }
 
       /* Footer */
@@ -1025,44 +1005,12 @@
             <p><strong>📍 Konum:</strong> Kadıköy / İstanbul</p>
             <p><strong>📧 E-posta:</strong> info@avturas.com</p>
             <p><strong>⏱️ Yanıt Süresi:</strong> 1–2 iş günü</p>
-            <p style="margin-top: 2rem">
+          </div>
+          <div class="contact-note fade-in">
+            <p>
               Hafta içi mesajlarınıza en kısa sürede dönüş yapıyoruz.
               Projeleriniz ve işbirliği önerileriniz için sabırsızlanıyoruz!
             </p>
-          </div>
-          <div class="contact-form fade-in">
-            <form id="contactForm">
-              <div class="form-group">
-                <input
-                  type="text"
-                  name="fullname"
-                  placeholder="Ad Soyad"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="E-posta"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <input type="text" name="subject" placeholder="Konu" />
-              </div>
-              <div class="form-group">
-                <textarea
-                  name="message"
-                  placeholder="Mesajınız"
-                  required
-                ></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary" style="width: 100%">
-                Mesaj Gönder
-              </button>
-            </form>
-            <div class="form-message" id="contactMessage"></div>
           </div>
         </div>
       </div>
@@ -1228,34 +1176,6 @@
           // Hide message after 5 seconds
           setTimeout(() => {
             newsletterMessage.style.display = "none";
-          }, 5000);
-        }, 1000);
-      });
-
-      // Contact Form
-      const contactForm = document.getElementById("contactForm");
-      const contactMessage = document.getElementById("contactMessage");
-
-      contactForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(contactForm);
-        const fullname = formData.get("fullname");
-
-        // Simulate form submission
-        contactMessage.textContent = "Mesajınız gönderiliyor...";
-        contactMessage.className = "form-message";
-        contactMessage.style.display = "block";
-
-        // Simulate API call
-        setTimeout(() => {
-          contactMessage.textContent = `✓ Teşekkürler ${fullname}! Mesajınız iletildi. En kısa sürede size dönüş yapacağız.`;
-          contactMessage.className = "form-message success";
-          contactForm.reset();
-
-          // Hide message after 5 seconds
-          setTimeout(() => {
-            contactMessage.style.display = "none";
           }, 5000);
         }, 1000);
       });
